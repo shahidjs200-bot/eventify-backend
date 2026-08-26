@@ -19,7 +19,7 @@ connectDB();
 // Middlewares
 app.use(cors({
   origin: ["http://localhost:5173",
-  process.env.CLIENT_URL,
+  "https://eventify-frontend-5tli.vercel.app",
   ].filter(Boolean),
   credentials: true,
 }));

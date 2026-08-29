@@ -128,10 +128,19 @@ export const searchEvent = async (req, res) => {
     const { event, location, category, price, date, language } = req.query;
     let query = {};
 
-    if (event) {
-      query.title = { $regex: event, $options: "i" };
-    }
+   if (event) {
+  const words = event.trim().split(/\s+/);
 
+  if (words.length === 1) {
+    // Single word — normal search
+    query.title = { $regex: event, $options: 'i' };
+  } else {
+    // Multiple words — har word alag search karo OR condition mein
+    query.$or = words.map(word => ({
+      title: { $regex: word, $options: 'i' }
+    }));
+  }
+}
     if (location) {
       query.location = { $regex: location, $options: "i" };
     }
